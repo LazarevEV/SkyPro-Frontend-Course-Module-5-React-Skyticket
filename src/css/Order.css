@@ -1,0 +1,21 @@
+.card-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.total-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+    margin-top: 24px;
+}
+
+.total-info-wrapper p {
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding: 0;
+}

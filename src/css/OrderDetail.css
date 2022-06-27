@@ -1,0 +1,100 @@
+.order-detail {
+    min-width: 256px;
+    min-height: 256px;
+    max-width: 256px;
+    max-height: 256px;
+
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, .25);
+
+    display: grid;
+    grid-template-rows: 136px 21px 21px 21px 48px;
+    align-items: center;
+}
+
+.order-detail.book-desc {
+    min-width: 412px;
+    max-width: 412px;
+    min-height: 512px;
+    max-height: 512px;
+
+    display: grid;
+    grid-template-rows: 24px 100%;
+    align-items: flex-start;
+}
+
+.order-detail.user-order {
+    min-width: 412px;
+    max-width: 412px;
+    min-height: 512px;
+    max-height: 512px;
+
+    display: grid;
+    grid-template-rows: 24px 100%;
+    align-items: flex-start;
+}
+
+.order-detail.order-receipt {
+    min-width: 412px;
+    max-width: 412px;
+    min-height: 584px;
+    max-height: 584px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    text-align: center;
+    font-size: 24px;
+}
+
+.p-text {
+    margin-left: 12px;
+}
+
+.control-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin-top: 18px;
+}
+
+.read-more-link {
+    margin-top: 8px;
+    margin-left: 12px;
+}
+
+.order-detail-button {
+    width: 32px;
+    height: 32px;
+
+    font-size: 24px;
+    line-height: 24px;
+
+    border-radius: 8px;
+    border: none;
+    color: #FFFFFF;
+
+    margin: 12px;
+}
+
+.quantity-increase {
+    background-color: #4CD261;
+}
+
+.quantity-increase:hover {
+    cursor: pointer;
+    background-color: #36a847;
+}
+
+.quantity-decrease {
+    background-color: #F73830;
+}
+
+.quantity-decrease:hover {
+    cursor: pointer;
+    background-color: #b92c27;
+}
