@@ -1,6 +1,7 @@
 import { React, useState } from 'react'
-import './App.css'
 import { Routes, Route } from 'react-router-dom'
+import './App.css'
+import MainPage from './page/MainPage'
 import UserInfoContext from './context/UserInfoContext'
 
 function App() {
@@ -10,13 +11,11 @@ function App() {
 		name: null,
 	});
 
-	const [order, setOrder] = useState([]);
-
 	return (
 		<UserInfoContext.Provider value={{user, setUser}}>
 			<div className="App">
 				<Routes>
-
+					<Route path="/" element={<MainPage />} />
 				</Routes>
 			</div>
 		</UserInfoContext.Provider>
