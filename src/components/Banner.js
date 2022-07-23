@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import Skeleton from '@mui/material/Skeleton';
 import { getTodayEvents } from '../data-contollers/getTodayEvents'
-import { capitalizeFirstLetter, timestampToDate } from '../utils/utils';
+import { capitalizeFirstLetter, timestampToDate, eventEndDateString } from '../utils/utils';
 
 const Wrapper = styled.div`
     align-self: center;
@@ -12,6 +12,10 @@ const Wrapper = styled.div`
 
     margin-top: 32px;
     margin-bottom: 16px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const BannerWrapper = styled.div`
@@ -85,12 +89,6 @@ function Banner() {
             didMount.current = true;
         }
     }, [bannerList])
-
-    const eventEndDateString = (timestamp) => {
-        const endDate = timestampToDate(timestamp)
-
-        return `${endDate.getDate()} ${endDate.toLocaleString('ru-RU', { month: 'short' }).replace('.', '')}`
-    }
 
     return (
         <Wrapper>

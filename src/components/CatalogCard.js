@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { capitalizeFirstLetter, timestampToDate, eventEndDateString } from '../utils/utils';
 
 const CardWrapper = styled.div`
     width: 468px;
 
     display: flex;
     flex-direction: column;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const CardImage = styled.img`
@@ -15,6 +20,7 @@ const CardImage = styled.img`
     border-radius: 18px; 
 
     object-fit: cover;
+    object-position: center top;
 `
 
 const CardInfoWrapper = styled.div`
@@ -26,6 +32,7 @@ const CardInfoWrapper = styled.div`
 `
 
 const CardInfoTitle = styled.span`
+    width: ${props => props.width || "auto"};
     font-size: 24px;
     font-weight: 700;
     color: #000000;
@@ -47,13 +54,13 @@ const CardInfoText = styled.span`
 function CatalogCard(props) {
     return (
         <CardWrapper>
-            <CardImage src="https://donatello-skyticket.s3.eu-north-1.amazonaws.com/1636821484633-Q8ys7EFNwOIkiJIh-fgzw.jpeg"></CardImage>
+            <CardImage src={props.eventInfo.img.url}></CardImage>
             <CardInfoWrapper>
                 <CardInfo>
-                    <CardInfoTitle>{props.title}</CardInfoTitle>
-                    <CardInfoTitle>от 1000 ₽</CardInfoTitle>
+                    <CardInfoTitle width={"348px"}>{props.eventInfo.title}</CardInfoTitle>
+                    <CardInfoTitle width={"108px"}>от 1000 ₽</CardInfoTitle>
                 </CardInfo>
-                <CardInfoText>{props.cardInfo}</CardInfoText>
+                <CardInfoText>{`${capitalizeFirstLetter(props.eventInfo.category)} · до ${eventEndDateString(props.eventInfo.endTimestamp)}`}</CardInfoText>
             </CardInfoWrapper>
         </CardWrapper>
     )
@@ -62,6 +69,5 @@ function CatalogCard(props) {
 export default CatalogCard
 
 CatalogCard.propTypes  = {
-    title: PropTypes.string,
-    cardInfo: PropTypes.string
+    eventInfo: PropTypes.object,
 }

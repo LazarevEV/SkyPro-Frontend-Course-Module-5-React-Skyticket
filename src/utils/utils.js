@@ -19,3 +19,9 @@ export function generateUUID() {
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
 }
+
+export function eventEndDateString(timestamp) {
+    const endDate = timestampToDate(timestamp)
+
+    return `${endDate.getDate()} ${endDate.toLocaleString('ru-RU', { month: 'short' }).replace('.', '').slice(0, 3).replace('й', 'я')}`
+}
