@@ -2,6 +2,10 @@ export function dateToTimestamp(strDate){
     return Date.parse(strDate) / 1000;
 }
 
+export function timestampToDate(timestamp) {
+    return new Date(timestamp * 1000)
+}
+
 export function arrayChoice(array, n=1) {
     return array.sort(() => .5 - Math.random()).slice(0, n) 
 }

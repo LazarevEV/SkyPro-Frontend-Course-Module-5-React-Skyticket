@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import Skeleton from '@mui/material/Skeleton';
 import { getTodayEvents } from '../data-contollers/getTodayEvents'
+import { capitalizeFirstLetter, timestampToDate } from '../utils/utils';
 
 const Wrapper = styled.div`
     align-self: center;
@@ -28,6 +29,35 @@ const BannerImage = styled.img`
     object-fit: cover;
 
     border-radius: 32px; 
+`
+const BannerInfo = styled.div`
+    display: flex;
+    // width: 512px;
+    flex-direction: column;
+
+    // background-color: rgba(0, 0, 0, .5);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0) 70%);
+
+    position: relative;
+    bottom: ${props => props.width || '124px'};
+
+    padding-left: 32px;
+    padding-bottom: 12px;
+`
+
+const BannerTitle = styled.span`
+    font-size: 36px;
+    font-weight: 700;
+    color: #FFFFFF;
+`
+
+const BannerText = styled.span`
+    display: inline-block;
+
+    font-size: 18px;
+    color: #E4E4E4;
+
+    margin-top: 6px;
 `
 
 const BANNER_AMOUNT = 5
@@ -56,13 +86,25 @@ function Banner() {
         }
     }, [bannerList])
 
+    const eventEndDateString = (timestamp) => {
+        const endDate = timestampToDate(timestamp)
+
+        return `${endDate.getDate()} ${endDate.toLocaleString('ru-RU', { month: 'short' }).replace('.', '')}`
+    }
+
     return (
         <Wrapper>
-            <BannerWrapper>
-                {/* {bannerList ? console.log(bannerList[bannerIdx].img.url) : 'NONE'} */}
-                <BannerImage src="https://donatello-skyticket.s3.eu-north-1.amazonaws.com/1636867133849-ix3cQ1g8grp-m4FE5EK76.jpeg"></BannerImage>
-                {/* {bannerList ? (<BannerImage src={bannerList[bannerIdx].img.url}></BannerImage>) : (<Skeleton variant="rectangular"/>)} */}
-            </BannerWrapper>
+            {
+                bannerList ?
+                <BannerWrapper>
+                    <BannerImage src={bannerList[bannerIdx].img.url}></BannerImage>
+                    <BannerInfo width={bannerList[bannerIdx].title.length > 30 ? "168px" : "124px"}>
+                        <BannerTitle>{bannerList[bannerIdx].title}</BannerTitle>
+                        <BannerText>{`${capitalizeFirstLetter(bannerList[bannerIdx].category)} · до ${eventEndDateString(bannerList[bannerIdx].endTimestamp)}`}</BannerText>
+                    </BannerInfo>
+                </BannerWrapper>
+                : (<Skeleton width="896px" height="448px" variant="rectangular" sx={{ borderRadius: "32px"}}/>)
+            }
         </Wrapper>
     )
 }

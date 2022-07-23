@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getAllEvents } from '../data-contollers/getAllEvents';
 import { getCategoryList } from '../data-contollers/getCategoryList';
 import { capitalizeFirstLetter, generateUUID } from '../utils/utils';
+import CatalogGrid from './CatalogGrid';
 
 function getTodayDate() {
     const today = new Date().toISOString().slice(0, 10);
@@ -15,13 +17,17 @@ const FilterWrapper = styled.div`
     display: flex;
     flex-direction: row;
     // gap: 0px;
+
+    padding-left: calc(50% - 720px);
+	padding-right: calc(50% - 720px);
 `
 
 const FormWrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    padding: 4px;
+    padding: 0px;
+    margin-left: ${props => props.marginLeft};
 `
 
 const FormLabel = styled.span`
@@ -70,10 +76,17 @@ function CatalogBody() {
     const [startDate, setStartDate] = useState(getTodayDate());
     const [endDate, setEndDate] = useState(getTodayDate());
     const [categoryList, setCategoryList] = useState([])
+    const [eventList, setEventList] = useState([])
 
     useEffect(() => {
         getCategoryList().then(res => {
             setCategoryList(res)
+        })
+    }, [])
+
+    useEffect(() => {
+        getAllEvents().then(res => {
+            setEventList(res)
         })
     }, [])
 
@@ -88,7 +101,7 @@ function CatalogBody() {
                         onChange={(e) => {setStartDate(e.target.valueAsDate.toISOString().slice(0, 10))}}
                     />
                 </FormWrapper>
-                <FormWrapper>
+                <FormWrapper marginLeft="4px">
                     <FormLabel width="22px">To</FormLabel>
                     <DatePickerInput
                         type='date'
@@ -96,19 +109,17 @@ function CatalogBody() {
                         onChange={(e) => {setEndDate(e.target.valueAsDate.toISOString().slice(0, 10))}}
                     />
                 </FormWrapper>
-                <FormWrapper>
+                <FormWrapper marginLeft="16px">
                     <FormLabel width="72px">Category</FormLabel>
                     <CategoryPicker>
+                        <option value="all">Все</option>
                         {categoryList.map(category => 
                             <option key={generateUUID()} value={category}>{capitalizeFirstLetter(category)}</option>
                         )}
-                        {/* <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option> */}
                     </CategoryPicker>
                 </FormWrapper>
             </FilterWrapper>
+            <CatalogGrid events={eventList}></CatalogGrid>
         </CatalogBodyWrapper>
     )
 }
