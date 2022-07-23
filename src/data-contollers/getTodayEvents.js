@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { dateToTimestamp, arrayChoice } from '../utils/utils'
 
-export function getTodayEvents() {
+export async function getTodayEvents(n=5) {
     const requestUrl = 'https://donatello-skyticket-backend.herokuapp.com/events'
-    axios.get(requestUrl)
-        .then(res => {
-            const events = res.data.events
-            return arrayChoice(events, 5)
-        })
+    const response = await axios.get(requestUrl)
+
+    return arrayChoice(response.data.events, n)
 }

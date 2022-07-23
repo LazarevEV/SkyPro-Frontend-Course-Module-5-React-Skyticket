@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { getCategoryList } from '../data-contollers/getCategoryList';
-import { capitalizeFirstLetter } from '../utils/utils';
+import { capitalizeFirstLetter, generateUUID } from '../utils/utils';
 
 function getTodayDate() {
     const today = new Date().toISOString().slice(0, 10);
@@ -69,10 +69,12 @@ const CategoryPicker = styled.select`
 function CatalogBody() {
     const [startDate, setStartDate] = useState(getTodayDate());
     const [endDate, setEndDate] = useState(getTodayDate());
-    const [categoryList, setCategoryList] = useState(null)
+    const [categoryList, setCategoryList] = useState([])
 
     useEffect(() => {
-        console.log(getCategoryList())
+        getCategoryList().then(res => {
+            setCategoryList(res)
+        })
     }, [])
 
     return (
@@ -97,9 +99,9 @@ function CatalogBody() {
                 <FormWrapper>
                     <FormLabel width="72px">Category</FormLabel>
                     <CategoryPicker>
-                        {categoryList?.map(category => {
-                            <option value={category}>{capitalizeFirstLetter(category)}</option>
-                        })}
+                        {categoryList.map(category => 
+                            <option key={generateUUID()} value={category}>{capitalizeFirstLetter(category)}</option>
+                        )}
                         {/* <option value="volvo">Volvo</option>
                         <option value="saab">Saab</option>
                         <option value="mercedes">Mercedes</option>
