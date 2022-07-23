@@ -12,10 +12,6 @@ const Wrapper = styled.div`
 
     margin-top: 32px;
     margin-bottom: 16px;
-
-    &:hover {
-        cursor: pointer;
-    }
 `
 
 const BannerWrapper = styled.div`
@@ -24,6 +20,12 @@ const BannerWrapper = styled.div`
 
     border-radius: 32px; 
     background-color: #c4c4c4;
+
+    box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, .25);
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const BannerImage = styled.img`

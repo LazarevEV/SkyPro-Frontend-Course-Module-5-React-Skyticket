@@ -6,7 +6,7 @@ import CatalogCard from './CatalogCard';
 const CatalogGridWrapper = styled.div`
     display: grid;
     grid-template-columns: 468px 468px 468px;
-    grid-template-rows: 274px 274px 274px;
+    grid-template-rows: 286px 286px 286px;
     column-gap: 18px;
     row-gap: 32px;
 

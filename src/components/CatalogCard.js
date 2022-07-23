@@ -5,9 +5,12 @@ import { capitalizeFirstLetter, timestampToDate, eventEndDateString } from '../u
 
 const CardWrapper = styled.div`
     width: 468px;
+    border-radius: 18px; 
 
     display: flex;
     flex-direction: column;
+
+    box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, .15);
 
     &:hover {
         cursor: pointer;
@@ -26,6 +29,9 @@ const CardImage = styled.img`
 const CardInfoWrapper = styled.div`
     display: flex;
     flex-direction: column;
+
+    padding-left: 4px;
+    padding-right: 4px;
 
     margin-left: 6px;
     margin-right: 6px;
@@ -57,7 +63,7 @@ function CatalogCard(props) {
             <CardImage src={props.eventInfo.img.url}></CardImage>
             <CardInfoWrapper>
                 <CardInfo>
-                    <CardInfoTitle width={"348px"}>{props.eventInfo.title}</CardInfoTitle>
+                    <CardInfoTitle width={"340px"}>{props.eventInfo.title}</CardInfoTitle>
                     <CardInfoTitle width={"108px"}>от 1000 ₽</CardInfoTitle>
                 </CardInfo>
                 <CardInfoText>{`${capitalizeFirstLetter(props.eventInfo.category)} · до ${eventEndDateString(props.eventInfo.endTimestamp)}`}</CardInfoText>
