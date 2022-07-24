@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { generateUUID } from '../utils/utils';
 import Skeleton from '@mui/material/Skeleton';
 import CatalogCard from './CatalogCard';
-import { generateUUID } from '../utils/utils';
 
 const CatalogGridWrapper = styled.div`
     display: grid;
@@ -34,7 +34,7 @@ const SkeletonCardWrapper = styled.div`
 const PAGE_SIZE = 9 // Num of cards on page
 
 function CatalogGrid(props) {
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(props.currentPage);
     const [eventList, setEventList] = useState(null)
     const [isEmptyEventList, setIsEmptyEventList] = useState(true)
     const pageAmount = Math.ceil(props.events.length / PAGE_SIZE)
@@ -42,7 +42,11 @@ function CatalogGrid(props) {
     useEffect(() => {
         setEventList(props.events)
     }, [props.events])
-    
+
+    useEffect(() => {
+        setPageNumber(props.currentPage)
+    }, [props.currentPage])
+
     return (
         <CatalogGridWrapper>
             {
@@ -66,5 +70,6 @@ function CatalogGrid(props) {
 export default CatalogGrid
 
 CatalogGrid.propTypes  = {
+    currentPage: PropTypes.number,
     events: PropTypes.array,
 }

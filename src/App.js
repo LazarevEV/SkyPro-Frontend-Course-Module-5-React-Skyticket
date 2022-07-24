@@ -1,5 +1,6 @@
 import { React, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import './App.css'
 import MainPage from './page/MainPage'
 import UserInfoContext from './context/UserInfoContext'

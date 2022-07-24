@@ -4,6 +4,10 @@ import { getAllEvents } from '../data-contollers/getAllEvents';
 import { getCategoryList } from '../data-contollers/getCategoryList';
 import { capitalizeFirstLetter, generateUUID } from '../utils/utils';
 import CatalogGrid from './CatalogGrid';
+import Pagination from '@mui/material/Pagination';
+import Skeleton from '@mui/material/Skeleton';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 function getTodayDate() {
     const today = new Date().toISOString().slice(0, 10);
@@ -11,6 +15,10 @@ function getTodayDate() {
 }
 
 const CatalogBodyWrapper = styled.div`
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    margin-bottom: 24px;
 `
 
 const FilterWrapper = styled.div`
@@ -71,13 +79,38 @@ const CategoryPicker = styled.select`
     padding-right: 8px;
 `
 
+const PaginationWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`
+
+const useStyles = makeStyles(() => ({
+    ul: {
+      "& .MuiPaginationItem-root": {
+        color: "#338888"
+      }
+    }
+  }));
+
+  const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#338888'
+		},
+		secondary: {
+			main: '#6FB3B8'
+		}
+	}
+})
 
 function CatalogBody() {
     const [startDate, setStartDate] = useState(getTodayDate());
     const [endDate, setEndDate] = useState(getTodayDate());
     const [categoryList, setCategoryList] = useState([])
-    // const [eventList, setEventList] = useState(Array.apply(null, Array(9)))
     const [eventList, setEventList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const paginationStyles = useStyles()
 
     useEffect(() => {
         getCategoryList().then(res => {
@@ -90,6 +123,10 @@ function CatalogBody() {
             setEventList(res)
         })
     }, [])
+
+    const handleChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     return (
         <CatalogBodyWrapper>
@@ -120,7 +157,22 @@ function CatalogBody() {
                     </CategoryPicker>
                 </FormWrapper>
             </FilterWrapper>
-            <CatalogGrid events={eventList}></CatalogGrid>
+            <CatalogGrid events={eventList} currentPage={currentPage}></CatalogGrid>
+            <PaginationWrapper>
+            {
+                (eventList && eventList.length !== 0) ?
+                <ThemeProvider theme={theme}>
+                    <Pagination
+                        count={Math.ceil(eventList.length / 9)}
+                        color="primary"
+                        classes={{ ul: paginationStyles.ul }}
+                        onChange={handleChange}>
+                    </Pagination>
+                </ThemeProvider>
+                :
+                <Skeleton width="256px" height="32px" variant="rectangular"  sx={{ borderRadius: "8px"}}/>
+            }
+            </PaginationWrapper>            
         </CatalogBodyWrapper>
     )
 }
