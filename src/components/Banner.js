@@ -103,7 +103,7 @@ function Banner() {
                         <BannerText>{`${capitalizeFirstLetter(bannerList[bannerIdx].category)} · до ${eventEndDateString(bannerList[bannerIdx].endTimestamp)}`}</BannerText>
                     </BannerInfo>
                 </BannerWrapper>
-                : (<Skeleton width="896px" height="448px" variant="rectangular" sx={{ borderRadius: "32px"}}/>)
+                : <Skeleton width="896px" height="448px" variant="rectangular" sx={{ borderRadius: "32px"}}/>
             }
         </Wrapper>
     )

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Skeleton from '@mui/material/Skeleton';
 import CatalogCard from './CatalogCard';
+import { generateUUID } from '../utils/utils';
 
 const CatalogGridWrapper = styled.div`
     display: grid;
@@ -18,18 +20,45 @@ const CatalogGridWrapper = styled.div`
     margin-bottom: 32px;
 `
 
+const SkeletonCardWrapper = styled.div`
+    width: 468px;
+    border-radius: 18px; 
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    // box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, .15); 
+`
+
 const PAGE_SIZE = 9 // Num of cards on page
 
 function CatalogGrid(props) {
     const [pageNumber, setPageNumber] = useState(1);
+    const [eventList, setEventList] = useState(null)
+    const [isEmptyEventList, setIsEmptyEventList] = useState(true)
     const pageAmount = Math.ceil(props.events.length / PAGE_SIZE)
 
-
+    useEffect(() => {
+        setEventList(props.events)
+    }, [props.events])
+    
     return (
         <CatalogGridWrapper>
-            {props.events.slice((pageNumber - 1)*PAGE_SIZE, pageNumber*PAGE_SIZE).map(event => 
-                <CatalogCard key={event._idx} eventInfo={event}></CatalogCard>
-            )}
+            {
+                (eventList && eventList.length !== 0) ?
+                eventList.slice((pageNumber - 1)*PAGE_SIZE, pageNumber*PAGE_SIZE).map(event => 
+                    <CatalogCard key={generateUUID()} eventInfo={event}></CatalogCard>
+                )
+                :
+                Array.apply(null, Array(9)).map(event => (
+                    <SkeletonCardWrapper key={generateUUID()}>
+                        <Skeleton width="468px" height="188px" variant="rectangular" sx={{ borderRadius: "18px"}}/>
+                        <Skeleton width="468px" height="36px" variant="rectangular"  sx={{ borderRadius: "8px"}}/>
+                        <Skeleton width="468px" height="36px" variant="rectangular"  sx={{ borderRadius: "8px"}}/>
+                    </SkeletonCardWrapper>
+                ))
+            }
         </CatalogGridWrapper>
     )
 }

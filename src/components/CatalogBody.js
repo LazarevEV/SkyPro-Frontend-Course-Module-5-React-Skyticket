@@ -76,6 +76,7 @@ function CatalogBody() {
     const [startDate, setStartDate] = useState(getTodayDate());
     const [endDate, setEndDate] = useState(getTodayDate());
     const [categoryList, setCategoryList] = useState([])
+    // const [eventList, setEventList] = useState(Array.apply(null, Array(9)))
     const [eventList, setEventList] = useState([])
 
     useEffect(() => {
