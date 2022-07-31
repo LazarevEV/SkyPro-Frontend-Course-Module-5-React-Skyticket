@@ -18,7 +18,7 @@ const CatalogBodyWrapper = styled.div`
     // display: flex;
     // flex-direction: column;
     // justify-content: center;
-    margin-bottom: 24px;
+    // margin-bottom: 24px;
 `
 
 const FilterWrapper = styled.div`
@@ -43,7 +43,8 @@ const FormLabel = styled.span`
     width: ${props => props.width};
 
     text-align: center;
-    background-color: #F6F6F2;
+    // background-color: #F6F6F2;
+    background-color: #FFFFFF;
 
     position: relative;
     top: 8px;
@@ -58,7 +59,8 @@ const DatePickerInput = styled.input`
     font-family: Roboto;
     text-align: center;
 
-    background-color: #F6F6F2;
+    // background-color: #F6F6F2;
+    background-color: #FFFFFF;
     border: 1px solid black;
     border-radius: 8px;
 `
@@ -71,7 +73,8 @@ const CategoryPicker = styled.select`
     font-family: Roboto;
     text-align: left;
 
-    background-color: #F6F6F2;
+    // background-color: #F6F6F2;
+    background-color: #FFFFFF;
     border: 1px solid black;
     border-radius: 8px;
 
@@ -87,7 +90,7 @@ const PaginationWrapper = styled.div`
 const useStyles = makeStyles(() => ({
     ul: {
       "& .MuiPaginationItem-root": {
-        color: "#338888"
+        color: "#000000"
       }
     }
   }));
@@ -95,10 +98,10 @@ const useStyles = makeStyles(() => ({
   const theme = createTheme({
 	palette: {
 		primary: {
-			main: '#338888'
+			main: '#f0ecec'
 		},
 		secondary: {
-			main: '#6FB3B8'
+			main: '#f0ecec'
 		}
 	}
 })

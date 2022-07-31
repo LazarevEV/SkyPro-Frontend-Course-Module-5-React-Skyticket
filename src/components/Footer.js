@@ -8,13 +8,15 @@ const Footer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    background-color: #6FB3B8;
-    color: #F6F6F2;
+    background-color: #f0ecec;
+    color: #000000;
 
     padding-left: calc(50% - 720px);
 	padding-right: calc(50% - 720px);
     padding-top: 16px;
     padding-bottom: 16px;
+
+    margin-top: 32px;
 `
 
 const FooterBlock = styled.div`
@@ -37,7 +39,7 @@ const FooterBlockText = styled.span`
 
 const CopyrightLine = styled.span`
     font-size: 10px;
-    color: #E8EAE4;
+    color: #8A8686;
 
     margin-top: 32px;
 `

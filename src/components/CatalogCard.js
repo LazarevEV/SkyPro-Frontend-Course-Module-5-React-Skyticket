@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { capitalizeFirstLetter, timestampToDate, eventEndDateString } from '../utils/utils';
@@ -58,8 +59,14 @@ const CardInfoText = styled.span`
 `
 
 function CatalogCard(props) {
+    const navigate = useNavigate();
+
+    const openEventPage = (eventId) => {
+        navigate(`/events/${eventId}`, {replace: true})
+    }
+
     return (
-        <CardWrapper>
+        <CardWrapper onClick={() => {openEventPage(props.eventInfo._id)}}>
             <CardImage src={props.eventInfo.img.url}></CardImage>
             <CardInfoWrapper>
                 <CardInfo>

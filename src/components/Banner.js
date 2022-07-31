@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Skeleton from '@mui/material/Skeleton';
 import { getTodayEvents } from '../data-contollers/getTodayEvents'
@@ -53,7 +54,7 @@ const BannerInfo = styled.div`
 
 const BannerTitle = styled.span`
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 600;
     color: #FFFFFF;
 `
 
@@ -72,6 +73,8 @@ function Banner() {
     const [bannerList, setBannerList] = useState(null)
     const [bannerIdx, setBannerIdx] = useState(0)
     const didMount = useRef(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getTodayEvents(BANNER_AMOUNT)
@@ -92,11 +95,15 @@ function Banner() {
         }
     }, [bannerList])
 
+    const openEventPage = (bannerIdx) => {
+        navigate(`/events/${bannerList[bannerIdx]._id}`, {replace: true})
+    }
+
     return (
         <Wrapper>
             {
                 bannerList ?
-                <BannerWrapper>
+                <BannerWrapper onClick={() => openEventPage(bannerIdx)}>
                     <BannerImage src={bannerList[bannerIdx].img.url}></BannerImage>
                     <BannerInfo width={bannerList[bannerIdx].title.length > 30 ? "168px" : "124px"}>
                         <BannerTitle>{bannerList[bannerIdx].title}</BannerTitle>
