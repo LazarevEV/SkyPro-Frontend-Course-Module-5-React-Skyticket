@@ -98,6 +98,7 @@ const BuyButton = styled.button`
 
     &:hover {
         cursor: pointer;
+        background-color: #ebd005;
     }
 `
 
@@ -117,6 +118,7 @@ const BuyButtonLong = styled.div`
 
     &:hover {
         cursor: pointer;
+        background-color: #ebd005;
     }
 `
 
@@ -134,6 +136,7 @@ const BBLongIncrease = styled.button`
 
     &:hover {
         cursor: pointer;
+        background-color: #ebd005;
     }
 `
 
@@ -151,6 +154,7 @@ const BBLongDecrease = styled.button`
 
     &:hover {
         cursor: "pointer";
+        background-color: #ebd005;
     }
 `
 

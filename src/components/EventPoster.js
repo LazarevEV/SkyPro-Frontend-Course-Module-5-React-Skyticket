@@ -37,7 +37,8 @@ const PosterInfo = styled.div`
 
     padding-left: max(50% - 720px, 24px);
 	padding-right: max(50% - 720px, 24px);
-    padding-bottom: 12px;
+    padding-top: 16px;
+    padding-bottom: 32px;
 
     position: absolute;
     bottom: 0;

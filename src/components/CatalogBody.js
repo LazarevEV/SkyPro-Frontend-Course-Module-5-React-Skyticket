@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { getAllEvents } from '../data-contollers/getAllEvents';
+import { getFilteredEvents } from '../data-contollers/getFilteredEvents';
 import { getCategoryList } from '../data-contollers/getCategoryList';
-import { capitalizeFirstLetter, generateUUID } from '../utils/utils';
+import { capitalizeFirstLetter, generateUUID, dateToTimestamp } from '../utils/utils';
 import CatalogGrid from './CatalogGrid';
 import Pagination from '@mui/material/Pagination';
 import Skeleton from '@mui/material/Skeleton';
@@ -82,6 +83,43 @@ const CategoryPicker = styled.select`
     padding-right: 8px;
 `
 
+const SearchInput = styled.input`
+    height: 30px;
+    width: 384px;
+
+    font-size: 16px;
+    font-family: Roboto;
+    text-align: left;
+
+    // background-color: #F6F6F2;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    padding-left: 8px;
+    padding-right: 8px;
+`
+
+const SubmitFilterButton = styled.button`
+    width: 128px;
+    height: 34px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    background-color: #fae333;
+    border: none;
+    border-radius: 32px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #ebd005;
+    }
+
+    margin-top: 20px;
+    margin-left: 16px;
+`
+
 const PaginationWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -107,13 +145,18 @@ const useStyles = makeStyles(() => ({
 })
 
 function CatalogBody() {
-    const [startDate, setStartDate] = useState(getTodayDate());
-    const [endDate, setEndDate] = useState(getTodayDate());
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [categoryList, setCategoryList] = useState([])
     const [eventList, setEventList] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
 
     const paginationStyles = useStyles()
+
+    const dateStartInputRef = useRef(null);
+    const dateEndInputRef = useRef(null);
+    const categoryInputRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     useEffect(() => {
         getCategoryList().then(res => {
@@ -131,34 +174,58 @@ function CatalogBody() {
         setCurrentPage(value);
     };
 
+    const applyFitler = () => {
+        console.log('> Applying filters...')
+        const filters = {
+            startTimestamp: dateToTimestamp(dateStartInputRef.current.value) || "",
+            endTimestamp: dateToTimestamp(dateEndInputRef.current.value) || "",
+            category: categoryInputRef.current.value === 'all' ? "" : categoryInputRef.current.value,
+            searchText: searchInputRef.current.value || ""
+        }
+
+        setEventList([])
+
+        getFilteredEvents(filters).then(res => {
+            setEventList(res)
+            console.log(res)
+        })
+    }
+
     return (
         <CatalogBodyWrapper>
             <FilterWrapper>
                 <FormWrapper>
-                    <FormLabel width="42px">From</FormLabel>
+                    <FormLabel width="24px">От</FormLabel>
                     <DatePickerInput
+                        ref={dateStartInputRef}
                         type='date'
                         value={startDate}
                         onChange={(e) => {setStartDate(e.target.valueAsDate.toISOString().slice(0, 10))}}
                     />
                 </FormWrapper>
                 <FormWrapper marginLeft="4px">
-                    <FormLabel width="22px">To</FormLabel>
+                    <FormLabel width="24px">До</FormLabel>
                     <DatePickerInput
+                        ref={dateEndInputRef}
                         type='date'
                         value={endDate}
                         onChange={(e) => {setEndDate(e.target.valueAsDate.toISOString().slice(0, 10))}}
                     />
                 </FormWrapper>
                 <FormWrapper marginLeft="16px">
-                    <FormLabel width="72px">Category</FormLabel>
-                    <CategoryPicker>
+                    <FormLabel width="78px">Категория</FormLabel>
+                    <CategoryPicker ref={categoryInputRef}>
                         <option value="all">Все</option>
                         {categoryList.map(category => 
                             <option key={generateUUID()} value={category}>{capitalizeFirstLetter(category)}</option>
                         )}
                     </CategoryPicker>
                 </FormWrapper>
+                <FormWrapper marginLeft="16px">
+                    <FormLabel width="48px">Поиск</FormLabel>
+                    <SearchInput ref={searchInputRef}></SearchInput>
+                </FormWrapper>
+                <SubmitFilterButton onClick={applyFitler}>Применить</SubmitFilterButton>
             </FilterWrapper>
             <CatalogGrid events={eventList} currentPage={currentPage}></CatalogGrid>
             <PaginationWrapper>
